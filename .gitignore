@@ -1,0 +1,50 @@
+# Python & Ambientes Virtuais
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+
+# Jupyter Notebook & Checkpoints
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/*
+
+# Apache Spark & Metastore Local
+derby.log
+metastore_db/
+spark-warehouse/
+checkpoint/
+*.checkpoint/
+_delta_log/
+
+# Dados Temporários e Parquet de Runtime
+data/
+*.parquet
+*.csv.tmp
+
+# Confluent Cloud & Kafka Properties (Segurança Crítica)
+.confluent/
+client.properties
+confluent.properties
+*.client.properties
+
+# AWS & Cloud Credentials
+.aws/
+credentials
+config
+*.pem
+*.key
+.env
+
+# Arquivos de Sistema & IDEs
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# 🛡️ Guardrails Docentes: Gabaritos e Soluções (Confidencial)
+*Gabarito*
+*gabarito*
+*Solution*
+*solution*
