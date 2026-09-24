@@ -1,12 +1,14 @@
 # Lab 06 - Arquitetura Medallion e Delta Lake com Spark Streaming
 
-**Disciplina:** Stream Processing & Pipelines  
+**Curso / Disciplina:** MBA em Engenharia de Dados (ABD) — Stream Processing & Pipelines (SPP)  
 **Ambiente:** Databricks Free Edition ([login.databricks.com](https://login.databricks.com/))  
-**Linguagem:** Python / PySpark & Spark SQL  
+**Linguagem / Stack:** Python 3.11+ / PySpark Structured Streaming / Delta Lake / Spark SQL  
+**Duração Estimada:** 25 a 30 minutos  
 
 ---
 
 ## 🎯 Objetivo do Lab
+
 Neste laboratório, você irá implementar um pipeline de ponta a ponta seguindo o padrão de **Arquitetura Medallion (Bronze $\rightarrow$ Silver)** em tempo real, utilizando **Delta Lake** como camada de armazenamento com transações ACID e tolerância a falhas.
 
 Ao final deste exercício, você será capaz de:
@@ -19,11 +21,12 @@ Ao final deste exercício, você será capaz de:
 ---
 
 ## 📋 Pré-requisitos & Materiais
-- Acesso ao **Databricks Free Edition** ([login.databricks.com](https://login.databricks.com/)).
-- Cluster configurado e ativo.
-- Volume **`checkpoint`** criado no catálogo `workspace` / schema `default`.
-- Dataset de eventos: `/databricks-datasets/structured-streaming/events/`
-- Notebook de exercício: `Lab 06 - Arquitetura Medallion e Delta Lake com Spark Streaming.ipynb`
+
+* Acesso ativo ao **Databricks Free Edition** ([login.databricks.com](https://login.databricks.com/)).
+* Cluster configurado e ativo.
+* Volume **`checkpoint`** criado no catálogo `workspace` / schema `default`.
+* Dataset de eventos embutido no Databricks: `/databricks-datasets/structured-streaming/events/`
+* Notebook de execução: [`Lab 06 - Arquitetura Medallion e Delta Lake com Spark Streaming.ipynb`](./Lab%2006%20-%20Arquitetura%20Medallion%20e%20Delta%20Lake%20com%20Spark%20Streaming.ipynb)
 
 ---
 
@@ -31,7 +34,7 @@ Ao final deste exercício, você será capaz de:
 
 ### Passo 1: Acesso e Importação do Notebook
 1. Acesse o Databricks em [https://login.databricks.com/](https://login.databricks.com/).
-2. No menu lateral, acesse **Workspace** -> **Users** -> seu e-mail.
+2. No menu lateral, acesse **Workspace** -> **Users** -> seu e-mail de usuário.
 3. Importe o arquivo `Lab 06 - Arquitetura Medallion e Delta Lake com Spark Streaming.ipynb` arrastando e soltando (**Drag & Drop**).
 4. Associe o notebook ao cluster ativo.
 
@@ -143,7 +146,17 @@ print("Queries das camadas Bronze e Silver encerradas com sucesso.")
 
 ---
 
+## 🧪 Validação & Critérios de Aceite
+
+Para certificar que a arquitetura Medallion foi implementada com êxito:
+1. Os diretórios `path_bronze` e `path_silver` devem conter arquivos Parquet de dados acompanhados pelo diretório `_delta_log/`.
+2. A leitura da tabela Silver deve comprovar a existência da coluna calculada `processamento_ts` em todos os registros persistidos.
+3. O comando `DESCRIBE HISTORY` sobre a tabela Silver deve exibir as operações de `STREAMING UPDATE` associadas a cada micro-batch gravado.
+
+---
+
 ## 🧹 Cleanup (Limpeza do Ambiente)
+
 Para liberar espaço no volume do Databricks:
 ```python
 # Limpeza completa das tabelas Delta e Checkpoints do Lab 06
@@ -153,6 +166,7 @@ dbutils.fs.rm("/Volumes/workspace/default/checkpoint/lab06_checkpoints", True)
 
 ---
 
-## 💡 Desafios Complementares (Para Praticar)
-1. **Camada GOLD (Agregação de Negócio):** Crie uma terceira camada (Gold) que lê da camada Silver e gera uma tabela Delta agregando a contagem de eventos por hora e tipo de ação.
+## 💡 Desafios Complementares
+
+1. **Camada GOLD (Agregação de Negócio):** Crie uma terceira camada (Gold) que lê da tabela Silver e gera uma nova tabela Delta agregando a contagem de eventos por hora e tipo de ação.
 2. **Delta Time Travel:** Utilize a sintaxe `spark.read.format("delta").option("versionAsOf", 0).load(path_silver)` para consultar o estado exato dos dados na primeira versão da tabela.

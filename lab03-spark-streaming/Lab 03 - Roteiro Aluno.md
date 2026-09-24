@@ -1,18 +1,20 @@
-# Lab 03 - Exemplo Básico Utilizando Apache Spark Streaming (Structured Streaming)
+# Lab 03 - Fundamentos do Apache Spark Streaming (Structured Streaming)
 
-**Disciplina:** Stream Processing & Pipelines  
+**Curso / Disciplina:** MBA em Engenharia de Dados (ABD) — Stream Processing & Pipelines (SPP)  
 **Ambiente:** Databricks Free Edition ([login.databricks.com](https://login.databricks.com/))  
-**Linguagem:** Python / PySpark & Spark SQL  
+**Linguagem / Stack:** Python 3.11+ / PySpark Structured Streaming / Spark SQL  
+**Duração Estimada:** 25 a 30 minutos  
 
 ---
 
 ## 🎯 Objetivo do Lab
+
 Neste laboratório, você irá aprender a construir e gerenciar seu primeiro pipeline de **Streaming de Dados em Tempo Real** utilizando a API de **Structured Streaming** do Apache Spark no Databricks.
 
 Ao final deste exercício, você será capaz de:
-1. Criar e configurar o Volume de **Checkpointing** no Unity Catalog / DBFS para garantir tolerância a falhas.
+1. Criar e configurar o Volume de **Checkpointing** no Unity Catalog para tolerância a falhas e semântica *exactly-once*.
 2. Configurar uma fonte de ingestão contínua com `spark.readStream`, aplicando **Schema explícito** e emulando fluxo com `maxFilesPerTrigger`.
-3. Aplicar transformações e agregações temporais em janelas de 1 hora (`window`).
+3. Aplicar transformações e agregações temporais em janelas deslizantes de 1 hora (`window`).
 4. Iniciar e parametrizar o ciclo de vida da query de streaming com `.writeStream` (Modo `complete`, Sink em memória e Checkpoint).
 5. Consultar a tabela em memória interativamente via **Spark SQL** e observar a evolução dos dados em tempo real.
 6. Executar o encerramento gracioso da query e a limpeza dos recursos.
@@ -20,10 +22,11 @@ Ao final deste exercício, você será capaz de:
 ---
 
 ## 📋 Pré-requisitos & Materiais
-- Acesso ao **Databricks Free Edition** ([login.databricks.com](https://login.databricks.com/)).
-- Cluster configurado e ativo.
-- Dataset de eventos embutido no Databricks: `/databricks-datasets/structured-streaming/events/`
-- Notebook de exercício: `Lab 03 - Exemplo Básico Utilizando Apache Spark Streaming.ipynb`
+
+* Acesso ativo ao **Databricks Free Edition** ([login.databricks.com](https://login.databricks.com/)).
+* Cluster de computação ativo no workspace.
+* Dataset de eventos embutido no Databricks: `/databricks-datasets/structured-streaming/events/`
+* Notebook de execução: [`Lab 03 - Exemplo Basico Utilizando Apache Spark Streaming.ipynb`](./Lab%2003%20-%20Exemplo%20Basico%20Utilizando%20Apache%20Spark%20Streaming.ipynb)
 
 ---
 
@@ -31,11 +34,11 @@ Ao final deste exercício, você será capaz de:
 
 ### Passo 1: Acesso e Importação do Notebook
 1. Acesse o Databricks em [https://login.databricks.com/](https://login.databricks.com/).
-2. No menu lateral, acesse **Workspace** -> **Users** -> seu e-mail.
-3. Importe o arquivo `Lab 03 - Exemplo Básico Utilizando Apache Spark Streaming.ipynb` arrastando e soltando (**Drag & Drop**).
+2. No menu lateral, acesse **Workspace** -> **Users** -> seu e-mail de usuário.
+3. Importe o arquivo `Lab 03 - Exemplo Basico Utilizando Apache Spark Streaming.ipynb` arrastando e soltando (**Drag & Drop**).
 
 ### Passo 2: Criação do Volume para Checkpointing
-O Structured Streaming exige um local seguro para salvar o progresso (offset/WAL) da query.
+O Structured Streaming exige um local seguro para salvar o progresso (offset/WAL) da query:
 1. No menu lateral esquerdo, clique em **Catalog**.
 2. Navegue até o catálogo **`workspace`** e o schema **`default`**.
 3. Crie um novo Volume com o nome exato **`checkpoint`** (caminho: `/Volumes/workspace/default/checkpoint/`).
@@ -118,7 +121,7 @@ ORDER BY time, action
 ```
 > **Dica Visual:** No Databricks, utilize o botão **+** / **Visualization** no resultado da célula SQL para configurar um gráfico de barras (*Grouped Bar Chart*) agrupado por `action` com o eixo X em `time`.
 
-### Passo 7: Encerramento da Query
+### Passo 7: Encerramento Gracioso da Query
 Antes de finalizar a sessão ou trocar de lab, garanta que a query foi interrompida:
 ```python
 # Verificar status da query
@@ -130,13 +133,24 @@ query.stop()
 
 ---
 
+## 🧪 Validação & Critérios de Aceite
+
+Para certificar que o pipeline de streaming operou com sucesso:
+1. A query deve ser inicializada sem exceções de schema ou falha de acesso ao Volume de checkpoint.
+2. A consulta `%sql SELECT ... FROM contagem` deve retornar métricas agregadas por janela temporal com dados consolidados.
+3. Ao término do processamento dos arquivos em fila (`availableNow=True`), `query.isActive` deve retornar `False`.
+
+---
+
 ## 🧹 Cleanup (Limpeza do Ambiente)
+
 Para liberar espaço e evitar conflitos em execuções futuras:
 1. **Apagar o Volume de Checkpoint:** No menu **Catalog** -> `workspace` -> `default` -> excluir o Volume **`checkpoint`**.
 2. **Apagar o Notebook:** No menu **Workspace** -> `Users` -> excluir o notebook do Lab 03 se não for mais utilizá-lo.
 
 ---
 
-## 💡 Desafios Complementares (Para Praticar)
-1. **Inspeção de Métricas de Streaming:** Utilize `query.lastProgress` ou `query.recentProgress` no Python para analisar o número de registros processados por segundo e os tempos de execução de cada micro-batch.
-2. **Novo Filtro de Negócio:** Adicione um `.filter(col("action") == "Open")` antes do `groupBy` e verifique o resultado na tabela SQL.
+## 💡 Desafios Complementares
+
+1. **Inspeção de Métricas de Streaming:** Utilize `query.lastProgress` ou `query.recentProgress` no Python para analisar o número de registros processados por segundo (`inputRowsPerSecond`) e os tempos de latência de cada micro-batch.
+2. **Filtragem de Ações de Negócio:** Adicione um `.filter(col("action") == "Open")` antes do `groupBy` e verifique a divergência de volumetria na tabela SQL.

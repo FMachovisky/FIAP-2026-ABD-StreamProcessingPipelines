@@ -1,12 +1,14 @@
 # Lab 05 - Enriquecimento de Dados em Tempo Real (Stream-Static Join)
 
-**Disciplina:** Stream Processing & Pipelines  
+**Curso / Disciplina:** MBA em Engenharia de Dados (ABD) — Stream Processing & Pipelines (SPP)  
 **Ambiente:** Databricks Free Edition ([login.databricks.com](https://login.databricks.com/))  
-**Linguagem:** Python / PySpark & Spark SQL  
+**Linguagem / Stack:** Python 3.11+ / PySpark Structured Streaming / Spark SQL  
+**Duração Estimada:** 25 a 30 minutos  
 
 ---
 
 ## 🎯 Objetivo do Lab
+
 Neste laboratório, você irá implementar o padrão arquitetural de **Lookup e Enriquecimento em Tempo Real (*Stream-Static Join*)**, cruzando um fluxo contínuo de eventos (*Streaming DataFrame*) com uma base cadastral ou dimensional de referência (*Static DataFrame*).
 
 Ao final deste exercício, você será capaz de:
@@ -18,11 +20,12 @@ Ao final deste exercício, você será capaz de:
 ---
 
 ## 📋 Pré-requisitos & Materiais
-- Acesso ao **Databricks Free Edition** ([login.databricks.com](https://login.databricks.com/)).
-- Cluster configurado e ativo.
-- Volume **`checkpoint`** criado no catálogo `workspace` / schema `default`.
-- Dataset de eventos: `/databricks-datasets/structured-streaming/events/`
-- Notebook de exercício: `Lab 05 - Enriquecimento de Dados em Tempo Real com Spark Streaming.ipynb`
+
+* Acesso ativo ao **Databricks Free Edition** ([login.databricks.com](https://login.databricks.com/)).
+* Cluster configurado e ativo.
+* Volume **`checkpoint`** criado no catálogo `workspace` / schema `default`.
+* Dataset de eventos embutido no Databricks: `/databricks-datasets/structured-streaming/events/`
+* Notebook de execução: [`Lab 05 - Enriquecimento de Dados em Tempo Real com Spark Streaming.ipynb`](./Lab%2005%20-%20Enriquecimento%20de%20Dados%20em%20Tempo%20Real%20com%20Spark%20Streaming.ipynb)
 
 ---
 
@@ -30,7 +33,7 @@ Ao final deste exercício, você será capaz de:
 
 ### Passo 1: Acesso e Importação do Notebook
 1. Acesse o Databricks em [https://login.databricks.com/](https://login.databricks.com/).
-2. No menu lateral, acesse **Workspace** -> **Users** -> seu e-mail.
+2. No menu lateral, acesse **Workspace** -> **Users** -> seu e-mail de usuário.
 3. Importe o arquivo `Lab 05 - Enriquecimento de Dados em Tempo Real com Spark Streaming.ipynb` arrastando e soltando (**Drag & Drop**).
 4. Associe o notebook ao cluster ativo.
 
@@ -113,7 +116,7 @@ ORDER BY time DESC
 LIMIT 20
 ```
 
-### Passo 6: Encerramento da Query
+### Passo 6: Encerramento Gracioso da Query
 ```python
 # Encerrar a execução da query
 print(f"Status da query antes de parar: {query.status}")
@@ -123,15 +126,26 @@ print("Query de enriquecimento encerrada com sucesso.")
 
 ---
 
+## 🧪 Validação & Critérios de Aceite
+
+Para certificar que o enriquecimento foi realizado com sucesso:
+1. Cada linha emitida na tabela em memória `eventos_enriquecidos` deve conter o evento original junto com as colunas dimensionais `descricao` e `prioridade`.
+2. A consulta SQL deve demonstrar que eventos do tipo `"Open"` foram mapeados para `"Abertura de Sessão"` e `"Close"` para `"Encerramento de Sessão"`.
+3. O modo de saída deve operar em `append`, assegurando que novos eventos não sobrescrevam dados preexistentes.
+
+---
+
 ## 🧹 Cleanup (Limpeza do Ambiente)
+
 1. **Apagar Checkpoints:** Excluir os diretórios dentro do Volume `checkpoint`.
 2. **Apagar o Notebook:** No menu **Workspace** -> `Users` -> remover o notebook do Lab 05 se necessário.
 
 ---
 
-## 💡 Desafios Complementares (Para Praticar)
+## 💡 Desafios Complementares
+
 1. **Enriquecimento com Filtro de Prioridade:** Adicione uma filtragem após o join para reter apenas eventos classificados como `"Alta Prioridade"`:
    ```python
    df_alta_prioridade = df_enriched.filter(col("prioridade") == "Alta Prioridade")
    ```
-2. **Left Outer Join:** Altere o tipo de join para `df_streaming.join(df_static, "action", "left")` e discuta como o Spark lida com eventos que não possuem correspondência na tabela cadastral.
+2. **Left Outer Join:** Altere o tipo de join para `df_streaming.join(df_static, "action", "left")` e analise como o Spark preenche registros nulos para eventos que não possuem correspondência cadastral.
