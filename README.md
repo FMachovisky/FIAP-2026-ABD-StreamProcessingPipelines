@@ -37,7 +37,7 @@ This repository establishes an end-to-end, production-grade **Reference Architec
 
 ## 🏗️ End-to-End Architectural Flow
 
-![End-to-End Stream Processing & Pipelines Flow](assets/architectural_flow.jpg)
+![End-to-End Stream Processing Pipelines Flow](assets/architectural_flow.jpg)
 
 ### Lifecycle Architecture Matrix
 
@@ -118,7 +118,7 @@ This reference implementation incorporates critical engineering lessons learned 
 
 ## 🎓 Academic Validation & Field Hardening
 
-This framework and interactive lab suite were architected, refined, and battle-tested by **Rafael Matsuyama** as part of the **Stream Processing & Pipelines** curriculum for the **Executive MBA in Data Engineering at FIAP** (São Paulo, Brazil).
+This framework and interactive lab suite were architected, refined, and battle-tested by **Rafael Matsuyama** as part of the **Stream Processing Pipelines** curriculum for the **Executive MBA in Data Engineering at FIAP** (São Paulo, Brazil).
 
 Senior data engineers, solutions architects, and analytics leaders across enterprise cohorts have executed, validated, and stress-tested these scenarios, providing continuous feedback to ensure that every laboratory reflects real-world corporate streaming workloads.
 

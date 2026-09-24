@@ -1,6 +1,6 @@
 # Lab 05 - Enriquecimento de Dados em Tempo Real (Stream-Static Join)
 
-**Curso / Disciplina:** MBA em Engenharia de Dados (ABD) — Stream Processing & Pipelines (SPP)  
+**Curso / Disciplina:** MBA em Engenharia de Dados (ABD) — Stream Processing Pipelines (SPP)  
 **Ambiente:** Databricks Free Edition ([login.databricks.com](https://login.databricks.com/))  
 **Linguagem / Stack:** Python 3.11+ / PySpark Structured Streaming / Spark SQL  
 **Duração Estimada:** 25 a 30 minutos  

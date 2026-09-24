@@ -1,6 +1,6 @@
 # Lab 07 - Introduction to Confluent Cloud and Flink SQL Hello World
 
-**Course / Track:** MBA in Data Engineering (ABD) — Stream Processing & Pipelines (SPP)  
+**Course / Track:** MBA in Data Engineering (ABD) — Stream Processing Pipelines (SPP)  
 **Environment:** Confluent Cloud for Apache Flink ([confluent.cloud](https://confluent.cloud/))  
 **Language / Stack:** Flink SQL / Apache Kafka / Serverless Compute Pool  
 **Estimated Duration:** 25 to 30 minutes  

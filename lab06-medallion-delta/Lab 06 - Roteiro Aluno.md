@@ -1,6 +1,6 @@
 # Lab 06 - Arquitetura Medallion e Delta Lake com Spark Streaming
 
-**Curso / Disciplina:** MBA em Engenharia de Dados (ABD) — Stream Processing & Pipelines (SPP)  
+**Curso / Disciplina:** MBA em Engenharia de Dados (ABD) — Stream Processing Pipelines (SPP)  
 **Ambiente:** Databricks Free Edition ([login.databricks.com](https://login.databricks.com/))  
 **Linguagem / Stack:** Python 3.11+ / PySpark Structured Streaming / Delta Lake / Spark SQL  
 **Duração Estimada:** 25 a 30 minutos  

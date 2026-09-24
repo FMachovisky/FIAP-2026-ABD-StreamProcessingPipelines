@@ -1,6 +1,6 @@
 # Lab 04 - Advanced Windowing and Watermarking in Apache Spark Streaming
 
-**Course / Track:** MBA in Data Engineering (ABD) — Stream Processing & Pipelines (SPP)  
+**Course / Track:** MBA in Data Engineering (ABD) — Stream Processing Pipelines (SPP)  
 **Environment:** Databricks Free Edition ([login.databricks.com](https://login.databricks.com/))  
 **Language / Stack:** Python 3.11+ / PySpark Structured Streaming / Spark SQL  
 **Estimated Duration:** 25 to 30 minutes  

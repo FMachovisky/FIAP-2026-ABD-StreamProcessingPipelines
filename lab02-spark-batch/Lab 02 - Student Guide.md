@@ -1,6 +1,6 @@
 # Lab 02 - Batch Ingestion and Processing with Apache Spark (PySpark)
 
-**Course / Track:** MBA in Data Engineering (ABD) — Stream Processing & Pipelines (SPP)  
+**Course / Track:** MBA in Data Engineering (ABD) — Stream Processing Pipelines (SPP)  
 **Environment:** Databricks Free Edition ([login.databricks.com](https://login.databricks.com/))  
 **Language / Stack:** Python 3.11+ / Apache Spark (PySpark) / DataFrames API  
 **Estimated Duration:** 25 to 30 minutes  

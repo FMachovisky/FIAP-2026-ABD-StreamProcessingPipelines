@@ -1,6 +1,6 @@
 # Lab 09 - Real-Time Stream Joins and Enrichment with Flink SQL
 
-**Course / Track:** MBA in Data Engineering (ABD) — Stream Processing & Pipelines (SPP)  
+**Course / Track:** MBA in Data Engineering (ABD) — Stream Processing Pipelines (SPP)  
 **Environment:** Confluent Cloud for Apache Flink ([confluent.cloud](https://confluent.cloud/))  
 **Language / Stack:** Flink SQL / Apache Kafka / Serverless Compute Pool  
 **Estimated Duration:** 25 to 30 minutes  
